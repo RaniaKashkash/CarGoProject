@@ -8,10 +8,14 @@
 name: Java CI with Gradle
 
 on:
-  push:
+ push:
     branches: [ "main" ]
-  pull_request:
+    paths:
+      - 'location-microservice/**'
+ pull_request:
     branches: [ "main" ]
+    paths:
+      - 'location-microservice/**'
 
 jobs:
   build:
@@ -37,6 +41,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build with Gradle Wrapper
+      working-directory: ./location-microservice
       run: ./gradlew build -x test
       
   dependency-submission:
