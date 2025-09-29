@@ -28,11 +28,11 @@ jobs:
       uses: gradle/actions/setup-gradle@v4
 
     - name: Build with Gradle
-      working-directory: ./location-microservice
+      working-directory: ./locationmicroservice
       run: gradle build -x test
 
     - name: Create Dockerfile
-      working-directory: ./location-microservice
+      working-directory: ./locationmicroservice
       run: |
         cat > Dockerfile << 'EOF'
         FROM eclipse-temurin:17-jre-alpine
@@ -60,8 +60,8 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v6
       with:
-        context: ./location-microservice
-        file: ./location-microservice/Dockerfile
+        context: ./locationmicroservice
+        file: ./locationmicroservice/Dockerfile
         tags: ${{ steps.meta.outputs.tags }}
         annotations: ${{ steps.meta.outputs.annotations }}
         push: true
@@ -83,5 +83,5 @@ jobs:
     - name: Generate and submit dependency graph
       uses: gradle/actions/dependency-submission@v4
       with:
-        build-root-directory: ./location-microservice
+        build-root-directory: ./locationmicroservice
         gradle-version: 8.5
