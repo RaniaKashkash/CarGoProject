@@ -1,0 +1,36 @@
+services:
+  mysqldb:
+    image: mysql
+    container_name: mysqlcontainer
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: cardb
+      MYSQL_USER: rania
+      MYSQL_PASSWORD: 1234
+    ports:
+      - 33306:3306
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    networks:
+      - springboot-mysql-net
+
+  car-service:
+    container_name: car-service
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - mysqldb
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/cardb?serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: rania
+      SPRING_DATASOURCE_PASSWORD: 1234
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    networks:
+      - springboot-mysql-net
+    restart: on-failure
+
+networks:
+  springboot-mysql-net:
