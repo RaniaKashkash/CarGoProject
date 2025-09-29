@@ -45,5 +45,8 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    - name: Make gradlew executable
+      run: chmod +x locationmicroservice/gradlew
+
     - name: Generate and submit dependency graph
       run: cd locationmicroservice && ./gradlew dependencies
